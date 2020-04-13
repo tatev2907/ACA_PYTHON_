@@ -1,0 +1,5 @@
+n=int(input("Input number: " ))
+n="{0:b}".format(n)
+p = sum(int(digit) for digit in n)
+print("Number in binary : ",n)
+print("Sum of binary number digits : ",p)

@@ -6,4 +6,3 @@ for i in userList:
     if s == i:
         userList.remove(i)
 print("Output list is: ", userList)
-

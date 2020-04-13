@@ -7,10 +7,4 @@ for i in userList:
         userList.remove(i)
 print("Output list is: ", userList)
 
-'''
-1. Տրված list-ից ջնջել տրված արժեքի բոլոր համընկնումները:
-Իրականացնել հետևյալ մեթոդներով՝
-ա. remove method
-բ. list comprehension
 
-'''

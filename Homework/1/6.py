@@ -5,9 +5,6 @@ def gcb(x, y):
         elif x < y:
             return gcb(x, y % x)
     return x
-
-
 a = int(input("Input first number: "))
 b = int(input("Input second number: "))
-
 print(gcb(a, b))

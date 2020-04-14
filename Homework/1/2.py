@@ -1,7 +1,8 @@
 input_string = input("Enter a list elements separated by space: ")
-userList = input_string.split()
-newL = []
-for i in userList:
-    if i not in newL:
-        newL.append(i)
-print("New List", newL)
+a = input_string.split()
+for x in a:
+    n=a.count(x)
+    if n > 1:
+        for i in range(n-1):
+            a.remove(x)
+print(a)

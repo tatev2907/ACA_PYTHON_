@@ -6,7 +6,7 @@ def last_digit(number):
     if (number == 0):
         return 0
     else:
-        return ((number * number) + last_digit(number - 1)) % 10
+        return ((number * number) % 10 + last_digit(number - 1)) % 10
 
 
 def is_polyndrome(strr):
@@ -20,4 +20,3 @@ def is_polyndrome(strr):
         return True
     else:
         return False
-

@@ -12,7 +12,6 @@ def mirror_string(s):
     for i in range(len(s)):
         p = ord(s[i])
         if p > 96 and p < 123:
-            print(i)
             s[i] = chr(122 - (p - ord('a')))
         elif p > 64 and p < 91:
             s[i] = chr(90 - (p - ord('A')))

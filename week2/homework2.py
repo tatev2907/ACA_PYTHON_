@@ -41,9 +41,9 @@ def heapify(arr, n, k):
     root = k
     l = 2 * k + 1
     r = 2 * k + 2
-    if l < n and arr[k] < arr[l]:
+    if l < n and arr[k] > arr[l]:
         root = l
-    if r < n and arr[root] < arr[r]:
+    if r < n and arr[root] > arr[r]:
         root = r
     if root != k:
         arr[k], arr[root] = arr[root], arr[k]
@@ -53,13 +53,9 @@ def heapify(arr, n, k):
 def heapq(lst, number):
     lst.append(number)
     n = len(lst)
-    for i in range(n, -1, -1):
+    for i in range(0, n):
         heapify(lst, n, i)
-    for i in range(n - 1, 0, -1):
-        lst[i], lst[0] = lst[0], lst[i]  # swap
-        heapify(lst, i, 0)
     return lst
-
 
 def sort_list(lst1, st1=None):
     n = len(lst1)

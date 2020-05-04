@@ -1,6 +1,5 @@
 import numpy as np
 
-
 def arr_replace(arr1):
     arr1[arr1 % 2 != 0] = 0
     return arr1

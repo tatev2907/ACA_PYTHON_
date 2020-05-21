@@ -1,5 +1,8 @@
 class Roman_Numeral:
-    def roman_to_int(self, s):
+    def __init__(self, s):
+        self.num = s
+
+    def rom_to_int(self, s):
         rom_val = {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000}
         int_val = 0
         for i in range(len(s)):
@@ -9,19 +12,19 @@ class Roman_Numeral:
                 int_val += rom_val[s[i]]
         return int_val
 
-    def add(self, st1, st2):
-        num1 = self.roman_to_int(st1)
-        num2 = self.roman_to_int(st2)
+    def add(self, st1):
+        num1 = st1.rom_to_int(st1.num)
+        num2 = self.rom_to_int(self.num)
         print(num1 + num2)
 
-    def sub(self, st1, st2):
-        num1 = self.roman_to_int(st1)
-        num2 = self.roman_to_int(st2)
+    def sub(self, st1):
+        num1 = st1.rom_to_int(st1.num)
+        num2 = self.rom_to_int(self.num)
         print(num1 - num2)
 
-    def mul(self, st1, st2):
-        num1 = self.roman_to_int(st1)
-        num2 = self.roman_to_int(st2)
+    def mul(self, st1):
+        num1 = st1.rom_to_int(st1.num)
+        num2 = self.rom_to_int(self.num)
         print(num1 * num2)
 
 
@@ -60,13 +63,19 @@ class Quadrilateral(Polygon):
     def __init__(self):
         super().__init__(4)
 
-    def area(self):
-        return self.sides[0] * self.sides[1]
-
 
 class Rectangle(Quadrilateral):
     def __init__(self):
         super().__init__()
+
+    def input_sides(self, side):
+        if side[0] != side[1] and len(side) == 2:
+            super().input_sides(side * 2)
+        else:
+            raise Exception("Rectangle object can receive only 2 different lengths of sides")
+
+    def area(self):
+        return self.sides[0] * self.sides[1]
 
 
 class Square(Quadrilateral):
@@ -74,4 +83,10 @@ class Square(Quadrilateral):
         super().__init__()
 
     def input_sides(self, side):
-        super().input_sides([side[0], side[0]])
+        if len(side) == 1:
+            super().input_sides(side * 4)
+        else:
+            raise Exception("Square object can receive only 1 side")
+
+    def area(self):
+        return self.sides[0] ** 2

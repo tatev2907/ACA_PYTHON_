@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Simple save search application</title>
+	</head>
+
+	<body>
+		<form method="POST" action="/search">
+			<div>
+				<label>First name</label>
+				<input type="text" name="first_name" required />
+			</div>
+			<div>
+				<label>Last name</label>
+				<input type="text" name="last_name" required />
+			</div>
+			<div>
+				<label>Age</label>
+				<input type="number" name="age" min="0" required>
+			</div>
+
+			<div>
+				<input type="submit" value="Save">
+			</div>
+		</form>
+	</body>
+</html>

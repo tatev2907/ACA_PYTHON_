@@ -5,40 +5,36 @@ from sklearn.model_selection import train_test_split
 import json
 import pymongo
 import pandas as pd
+import matplotlib.pyplot as plt
 
-
-def conn_to_db():
+def conn_to_db(col_name):
     mng_client = pymongo.MongoClient('localhost', 27017)
     mng_db = mng_client['House_price']
-    return mng_db
+    collection_name = col_name
+    db_cm = mng_db[collection_name]
+    return db_cm
 
 
 def add_train_into_collection(data):
-    db = conn_to_db()
-    collection_name = 'train'
-    db_cm = db[collection_name]
+    db_cm = conn_to_db('train')
     data_json = json.loads(data.to_json(orient='records'))
     db_cm.remove()
     db_cm.insert(data_json)
 
 
 def exist_in_db(ID):
-    db = conn_to_db()
-    collection_test = 'test'
-    db_test = db[collection_test]
-    if db.train.find({'Unnamed: 0': ID}).count() > 0:
-        a = db.train.find({"Unnamed: 0": ID})
+    db_test = conn_to_db('test')
+    db_train = conn_to_db('train')
+    if db_train.find({'Unnamed: 0': ID}).count() > 0:
+        a = db_train.find({"Unnamed: 0": ID})
         for b in a:
-            db_test.remove()
             db_test.insert(b)
         return True
     return False
 
 
 def add_to_resault_collection(data):
-    db = conn_to_db()
-    collection_test = 'test'
-    db_cm = db[collection_test]
+    db_cm = conn_to_db('test')
     data_json = json.loads(data.to_json(orient='records'))
     db_cm.insert(data_json)
 
@@ -57,7 +53,6 @@ class PricePredict:
 
     def preprocessing(self, X):
         assert isinstance(X, pd.DataFrame), "Data must be pd.DataFrame "
-
         district = {'Norq Marash': 101, 'Achapnyak': 10, 'Arabkir': 20, 'Avan': 30, 'Center': 40, 'Davtashen': 50,
                     'Erebuni': 60, 'Malatia-Sebastia': 70, 'Nor Norq': 80, 'Nubarashen': 90, 'Qanaqer-Zeytun': 100,
                     'Shengavit': 110, 'Vahagni district': 120}
@@ -84,6 +79,8 @@ class PricePredict:
     def predict_for_test(self, X):
         assert isinstance(X, pd.DataFrame), "Data must be pd.DataFrame "
         ls = list(X['Unnamed: 0'])
+        db_test = conn_to_db('test')
+        db_test.remove()
         for i in ls:
             if exist_in_db(i):
                 index_of = X[X['Unnamed: 0'] == i].index
@@ -119,17 +116,14 @@ class PricePredict:
         plt.title("Price vs area")
 
 
-data = pd.read_csv('houses_train.csv')
-test = pd.read_csv('test.csv') #user testing file
+data = pd.read_csv('houses_train1.csv')  # training file
+test = pd.read_csv('test.csv')  # user testing file contains 500 houses information, 10 of this exist in trained data
 X = data.drop('price', axis=1)
 y = data['price']
 x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=2)
-print(x_train)
 a = PricePredict()
 a.fit(x_train, y_train)
-# a.predict(X)
 a.add_predict_to_db(X)
-# a.predict_for_test(test)
 a.add_test_to_db(test)
 print(a.score(x_test, y_test))
-a.plot(test, 'area')
+a.plot(X, 'area')  # input houses data with their price and column_name for comparing
